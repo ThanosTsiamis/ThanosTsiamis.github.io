@@ -2,7 +2,7 @@
 permalink: /contact
 layout: archive
 include: comments
-title: Cv
+title: Contact
 ---
 
 Don't be afraid to drop me a line! 

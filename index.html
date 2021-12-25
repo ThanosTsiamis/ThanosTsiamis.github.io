@@ -1,7 +1,24 @@
 ---
 layout: splash
 author_profile: false
+permalink: /
+title: Welcome
+header:
+  overlay_color: "#000"
+  overlay_filter: "0.2"
+  overlay_image: /assets/images/backgroundImage.jpg
+excerpt: To my Personal Website
+intro:
+  - excerpt: 'Curious by nature, happy by choice!'
+feature_row_left:
+  - image_path: /assets/images/thanosPhoto.jpg
+    title: ""
+    excerpt: "My name is Thanos, a postgraduate computer science student currently residing in the Netherlands, with a strong interest in computer stuff of all kinds!"
+    url: "/cv"
+    btn_label: "More About Me"
+    btn_class: "btn--primary"
 ---
 
-
-
+{% include feature_row id="intro" type="center" %}
+{% include feature_row id="feature_row_left" type="left" %}
+This site is under construction. Please wait a few days for the finished product! See you then!
