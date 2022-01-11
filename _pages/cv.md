@@ -32,7 +32,8 @@ title: Curriculum Vitae
 - Software Testing in **Groovy** with Geb, Spock & Selenium frameworks
 - CI/CD with **Docker**, **Jenkins** & **Github Actions**
 - SQL and NOSQL with **PostgreSQL** and **Cassandra**
-  <br>
-<br>
+- Math focused code development in **MATLAB**
+  
+also..
 
-- **Scrum** enthusiast - **Kanban** supporter
+- **Scrum** enthusiast - **Kanban** supporter !
