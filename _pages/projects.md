@@ -6,7 +6,11 @@ title: Projects I am interested in
 
 Continuously updated
 
-- Deep Learning Model with Generative Adversarial Networks (GAN) on Computer Vision (in progress)
+- [Deep Learning Model applying CycleGAN for Unpaired Image Transformation](https://github.com/MatthewScheeres/PRFinalProject) (GAN) on Computer Vision with the precious contribution of P.W.O. van Aken, 
+  F.L.G. Blom,
+  R.R. Cuevas,
+  J.A.W. Markus &
+  M.A. Scheeres
 - [Optimizing a vaccination campaign](https://git.science.uu.nl/ThanosTsiamis/algorithms-for-decision-support-assignment-1) which wouldn't be possible without the help of Julian Markus, 
   Leona Teunissen & Ramón R. Cuevas
 - [Short and simple Monte Carlo Simulation (Deprecated)](https://github.com/ThanosTsiamis/ExaminationsGame)
