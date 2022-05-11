@@ -6,6 +6,8 @@ title: Projects I am interested in
 
 Continuously updated
 
+- Data Intensive Systems: Scaling up simple ideas (In progress)
+- Pattern Set Mining: The whole picture (In progress)
 - [Big Data: An in depth look.]({{ site.url }}/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf)
 - [Deep Learning Model applying CycleGAN for Unpaired Image Transformation](https://github.com/MatthewScheeres/PRFinalProject) (GAN) on Computer Vision with the precious contribution of P.W.O. van Aken, 
   F.L.G. Blom,
