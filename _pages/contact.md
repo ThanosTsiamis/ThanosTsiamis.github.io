@@ -4,6 +4,7 @@ layout: single
 include: comments
 title: Contact
 ---
+Business proposition, academic question or just a hi?
 
 Don't be afraid to drop me a line! 
 
