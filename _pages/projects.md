@@ -9,11 +9,11 @@ Continuously updated
 - Data Intensive Systems: Scaling up simple ideas (In progress)
 - Pattern Set Mining: The whole picture (In progress)
 - [Big Data: An in depth look.]({{ site.url }}/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf)
-- [Deep Learning Model applying CycleGAN for Unpaired Image Transformation](https://github.com/MatthewScheeres/PRFinalProject) (GAN) on **Computer Vision** with the precious contribution of P.W.O. van Aken, 
+- [Deep Learning Model applying CycleGAN for Unpaired Image Transformation]({{ site.url }}/assets/pdfs/Project_Pattern_Recognition___Final.pdf) (GAN) on **Computer Vision** with the precious contribution of P.W.O. van Aken, 
   F.L.G. Blom,
   R.R. Cuevas,
   J.A.W. Markus &
-  M.A. Scheeres. The accompanying paper can be found [here]({{ site.url }}/assets/pdfs/Project_Pattern_Recognition___Final.pdf)
+  M.A. Scheeres. The github repo can be found [here](https://github.com/MatthewScheeres/PRFinalProject)
 - [Optimizing a vaccination campaign](https://git.science.uu.nl/ThanosTsiamis/algorithms-for-decision-support-assignment-1) which wouldn't be possible without the help of Julian Markus, 
   Leona Teunissen & Ramón R. Cuevas
 - [Short and simple Monte Carlo Simulation (Deprecated)](https://github.com/ThanosTsiamis/ExaminationsGame)
