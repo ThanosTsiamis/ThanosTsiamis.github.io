@@ -23,7 +23,10 @@ Continuously updated
 
 - [Apache Groovy](https://github.com/apache/groovy), a powerful Java-syntax-compatible object-oriented programming language.
 
-  Still thinking whether Groovy is the right language? Read my thoughts about Groovy [here]({{ site.url }}/assets/pdfs/GroovyProgrammingLanguage.pdf).
+
+  _Still thinking whether Groovy is the right language?_ 
+
+Read my thoughts about Groovy [**here**]({{ site.url }}/assets/pdfs/GroovyProgrammingLanguage.pdf).
 
 
 - [Axe](https://github.com/dequelabs/axe-core), an accessibility testing engine to ensure that are no barriers that prevent interaction with, or access to, websites by people with physical disabilities.
