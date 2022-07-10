@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<url>
+  <loc>https://thanostsiamis.github.io/</loc>
+  <lastmod>2022-07-10T18:17:43+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/projects</loc>
+  <lastmod>2022-07-10T18:17:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/cv</loc>
+  <lastmod>2022-07-10T18:17:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/contact</loc>
+  <lastmod>2022-07-10T18:17:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/about</loc>
+  <lastmod>2022-07-10T18:17:43+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/assets/pdfs/Pattern_Set_Mining.pdf</loc>
+  <lastmod>2022-07-10T18:17:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf</loc>
+  <lastmod>2022-07-10T18:17:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/assets/pdfs/Project_Pattern_Recognition___Final.pdf</loc>
+  <lastmod>2022-07-10T18:17:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/assets/pdfs/INFOMADS_Group_Project_Report__Vaccination_Scheduling.pdf</loc>
+  <lastmod>2022-07-10T18:17:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://thanostsiamis.github.io/assets/pdfs/GroovyProgrammingLanguage.pdf</loc>
+  <lastmod>2022-07-10T18:17:34+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
