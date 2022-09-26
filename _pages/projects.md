@@ -6,7 +6,7 @@ title: Projects I am interested in
 
 Continuously updated
 
-- [Data Intensive Systems]({{ site.url }}/assets/pdfs/INFOMDIS.pdf): Clustering a database into sub databases
+- [Data Intensive Systems]({{ site.url }}/assets/pdfs/INFOMDIS.pdf): Clustering a database into sub databases with the help of O.Papakyriakou
 - [Pattern Set Mining and Inductive Databases]({{ site.url }}/assets/pdfs/Pattern_Set_Mining.pdf): From start til end- a near complete picture.
 - [Big Data: An in depth look.]({{ site.url }}/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf)
 - [Deep Learning Model applying CycleGAN for Unpaired Image Transformation]({{ site.url }}/assets/pdfs/Project_Pattern_Recognition___Final.pdf) (GAN) on **Computer Vision** with the precious contribution of P.W.O. van Aken, 
