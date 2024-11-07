@@ -6,11 +6,6 @@ title: Curriculum Vitae
 
 <br>
 
-# Currently on a Bit of a Detour…
-  
-Right now, I’m taking a little break from the hustle and bustle of the tech world to serve my mandatory military obligations. Think of it as swapping my keyboard for a camo backpack and my daily stand-ups for… well, actual standing up.
-
-
 # Education
  
 
