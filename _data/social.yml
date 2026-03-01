@@ -1,0 +1,10 @@
+github:
+  label: GitHub
+  url: https://github.com/your-username
+linkedin:
+  label: LinkedIn
+  url: https://www.linkedin.com/in/your-username
+feed:
+  label: Feed
+  url: /feed.xml
+email: you@example.com

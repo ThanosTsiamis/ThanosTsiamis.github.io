@@ -1,42 +1,300 @@
----
----
-
 <!doctype html>
-<!--
-  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
-  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
-  Free for personal and commercial use under the MIT license
-  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
--->
-<html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
-  <head>
-    {% include head.html %}
-    {% include head/custom.html %}
-  </head>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/win98.css' | relative_url }}">
+</head>
+<body>
+  <div class="cookie-banner" id="cookie-banner">
+    This website uses cookies to ensure you get the best experience on our website.
+    <a href="#">Learn more</a>
+    <button type="button" id="cookie-accept">Got it!</button>
+  </div>
 
-  <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
-    {% include_cached skip-links.html %}
-    {% include_cached browser-upgrade.html %}
-    {% include_cached masthead.html %}
+  <div class="skip-links">
+    <a href="#main-nav">Skip to primary navigation</a>
+    <a href="#main-content">Skip to content</a>
+    <a href="#site-footer">Skip to footer</a>
+  </div>
 
-    <div class="initial-content">
-      {{ content }}
-    </div>
-
-    {% if site.search == true %}
-      <div class="search-content">
-        {% include_cached search/search_form.html %}
+  <div class="desktop">
+    <div class="window" id="main-window">
+      <div class="titlebar">
+        <span class="title">{{ page.title }}</span>
+        <div class="window-buttons">
+          <button type="button" class="btn" id="win-min" aria-label="Minimize">_</button>
+          <button type="button" class="btn" id="win-max" aria-label="Toggle full screen">[]</button>
+          <button type="button" class="btn" id="win-close" aria-label="Close">X</button>
+        </div>
       </div>
-    {% endif %}
-
-    <div id="footer" class="page__footer">
-      <footer>
-        {% include footer/custom.html %}
-        {% include_cached footer.html %}
-      </footer>
+      <nav id="main-nav" class="top-nav" aria-label="Primary">
+        {% include nav-links.html %}
+      </nav>
+      <div id="main-content" class="window-content">
+        {{ content }}
+      </div>
     </div>
+  </div>
 
-    {% include scripts.html %}
+  <div id="site-footer" class="site-footer">
+    <p>Follow: {% include social-links.html %}</p>
+    <p>© {{ "now" | date: "%Y" }} Thanos Tsiamis. Powered by Jekyll.</p>
+  </div>
 
-  </body>
+  <div class="start-menu" id="start-menu" aria-hidden="true">
+    <div class="start-menu-head">Windows 98</div>
+    {% include nav-links.html %}
+  </div>
+
+  <div class="secret-toast" id="secret-toast" aria-live="polite"></div>
+
+  <div class="bsod" id="bsod" aria-hidden="true">
+    <div class="bsod-inner">
+      <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) + 00010E36.</p>
+      <p>Press any key to continue _</p>
+    </div>
+  </div>
+
+  <footer class="taskbar" aria-label="Windows 98 style taskbar">
+    <button type="button" class="start-btn" id="start-btn">Start</button>
+    <button type="button" class="taskbar-title" id="task-window">{{ site.title }}</button>
+    <div class="clock" id="clock">--:--</div>
+  </footer>
+
+  <script>
+    (function () {
+      var windowEl = document.getElementById("main-window");
+      var minBtn = document.getElementById("win-min");
+      var maxBtn = document.getElementById("win-max");
+      var closeBtn = document.getElementById("win-close");
+      var taskBtn = document.getElementById("task-window");
+      var startBtn = document.getElementById("start-btn");
+      var startMenu = document.getElementById("start-menu");
+      var clock = document.getElementById("clock");
+      var cookieBanner = document.getElementById("cookie-banner");
+      var cookieAccept = document.getElementById("cookie-accept");
+      var secretToast = document.getElementById("secret-toast");
+      var bsod = document.getElementById("bsod");
+      var audioContext = null;
+      var lastClickAt = 0;
+      var konami = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
+      var konamiProgress = 0;
+      var typedBuffer = "";
+      var startClicks = [];
+
+      function showSecret(message) {
+        secretToast.textContent = message;
+        secretToast.classList.remove("show");
+        window.requestAnimationFrame(function () {
+          secretToast.classList.add("show");
+        });
+        window.setTimeout(function () {
+          secretToast.classList.remove("show");
+        }, 2400);
+      }
+
+      function openBsod() {
+        bsod.classList.add("show");
+        bsod.setAttribute("aria-hidden", "false");
+        showSecret("Easter egg unlocked: Blue Screen");
+      }
+
+      function closeBsod() {
+        bsod.classList.remove("show");
+        bsod.setAttribute("aria-hidden", "true");
+      }
+
+      function hideCookieBanner(saveChoice) {
+        cookieBanner.classList.add("hidden");
+        if (saveChoice) {
+          try {
+            window.localStorage.setItem("cookie-banner-dismissed", "1");
+          } catch (e) {}
+        }
+      }
+
+      try {
+        if (window.localStorage.getItem("cookie-banner-dismissed") === "1") {
+          hideCookieBanner(false);
+        }
+      } catch (e) {}
+
+      cookieAccept.addEventListener("click", function () {
+        hideCookieBanner(true);
+      });
+
+      function playRetroClick() {
+        var nowMs = Date.now();
+        if (nowMs - lastClickAt < 30) return;
+        lastClickAt = nowMs;
+
+        if (!audioContext) {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          audioContext = new AudioCtx();
+        }
+
+        if (audioContext.state === "suspended") {
+          audioContext.resume();
+        }
+
+        var now = audioContext.currentTime;
+
+        // Low "thunk" body.
+        var thumpGain = audioContext.createGain();
+        thumpGain.gain.setValueAtTime(0.0001, now);
+        thumpGain.gain.exponentialRampToValueAtTime(0.26, now + 0.003);
+        thumpGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+        thumpGain.connect(audioContext.destination);
+
+        var thumpOsc = audioContext.createOscillator();
+        thumpOsc.type = "triangle";
+        thumpOsc.frequency.setValueAtTime(220, now);
+        thumpOsc.frequency.exponentialRampToValueAtTime(95, now + 0.06);
+        thumpOsc.connect(thumpGain);
+        thumpOsc.start(now);
+        thumpOsc.stop(now + 0.08);
+
+        // Short high transient for the button switch snap.
+        var clickGain = audioContext.createGain();
+        clickGain.gain.setValueAtTime(0.0001, now);
+        clickGain.gain.exponentialRampToValueAtTime(0.08, now + 0.001);
+        clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
+        clickGain.connect(audioContext.destination);
+
+        var clickOsc = audioContext.createOscillator();
+        clickOsc.type = "square";
+        clickOsc.frequency.setValueAtTime(1800, now);
+        clickOsc.frequency.exponentialRampToValueAtTime(700, now + 0.01);
+        clickOsc.connect(clickGain);
+        clickOsc.start(now);
+        clickOsc.stop(now + 0.015);
+      }
+
+      function closeStartMenu() {
+        startMenu.classList.remove("open");
+        startBtn.classList.remove("pressed");
+        startMenu.setAttribute("aria-hidden", "true");
+      }
+
+      function toggleStartMenu() {
+        var willOpen = !startMenu.classList.contains("open");
+        if (!willOpen) {
+          closeStartMenu();
+          return;
+        }
+        startMenu.classList.add("open");
+        startBtn.classList.add("pressed");
+        startMenu.setAttribute("aria-hidden", "false");
+      }
+
+      function restoreWindow() {
+        windowEl.classList.remove("closed");
+        windowEl.classList.remove("minimized");
+        taskBtn.classList.remove("taskbar-title-inactive");
+      }
+
+      minBtn.addEventListener("click", function () {
+        windowEl.classList.toggle("minimized");
+        windowEl.classList.remove("closed");
+        taskBtn.classList.toggle("taskbar-title-inactive", windowEl.classList.contains("minimized"));
+      });
+
+      maxBtn.addEventListener("click", function () {
+        restoreWindow();
+        windowEl.classList.toggle("maximized");
+      });
+
+      closeBtn.addEventListener("click", function () {
+        windowEl.classList.add("closed");
+        taskBtn.classList.add("taskbar-title-inactive");
+      });
+
+      taskBtn.addEventListener("click", function () {
+        if (windowEl.classList.contains("closed") || windowEl.classList.contains("minimized")) {
+          restoreWindow();
+          return;
+        }
+        windowEl.classList.add("minimized");
+        taskBtn.classList.add("taskbar-title-inactive");
+      });
+
+      startBtn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        toggleStartMenu();
+        var now = Date.now();
+        startClicks.push(now);
+        while (startClicks.length && now - startClicks[0] > 1600) {
+          startClicks.shift();
+        }
+        if (startClicks.length >= 7) {
+          startClicks = [];
+          openBsod();
+        }
+      });
+
+      document.addEventListener("click", function (event) {
+        if (!startMenu.contains(event.target) && event.target !== startBtn) {
+          closeStartMenu();
+        }
+      });
+
+      document.addEventListener("keydown", function (event) {
+        var key = (event.key || "").toLowerCase();
+
+        if (key === konami[konamiProgress]) {
+          konamiProgress += 1;
+          if (konamiProgress === konami.length) {
+            konamiProgress = 0;
+            document.body.classList.toggle("party-mode");
+            showSecret("Easter egg unlocked: Party Mode");
+          }
+        } else if (key === konami[0]) {
+          konamiProgress = 1;
+        } else {
+          konamiProgress = 0;
+        }
+
+        if (key.length === 1 && /[a-z0-9]/.test(key)) {
+          typedBuffer = (typedBuffer + key).slice(-10);
+          if (typedBuffer.indexOf("win98") !== -1) {
+            typedBuffer = "";
+            showSecret("Easter egg unlocked: Welcome back to 1998");
+          }
+        }
+
+        if (event.key === "Escape") {
+          closeStartMenu();
+          closeBsod();
+        }
+      });
+
+      startMenu.addEventListener("click", function () {
+        closeStartMenu();
+      });
+
+      document.addEventListener("pointerdown", function (event) {
+        if (event.button !== 0) return;
+        playRetroClick();
+      });
+
+      bsod.addEventListener("click", function () {
+        closeBsod();
+      });
+
+      function updateClock() {
+        var now = new Date();
+        var h = now.getHours();
+        var m = now.getMinutes();
+        if (m < 10) m = "0" + m;
+        clock.textContent = h + ":" + m;
+      }
+      updateClock();
+      setInterval(updateClock, 60000);
+    })();
+  </script>
+</body>
 </html>

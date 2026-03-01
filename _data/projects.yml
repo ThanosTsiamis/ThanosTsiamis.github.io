@@ -1,0 +1,23 @@
+page_subtitle: Continuously updated
+magnus_opus:
+  title: My magnus opus
+  description: >-
+    FIONA: short for "Finding Outliers in Attributes," is an innovative framework
+    designed for the detection of categorical outliers within datasets. This
+    configuration-free and user-friendly tool specializes in identifying unusual
+    patterns in data attributes, making it invaluable for data analysis and
+    decision-making processes. FIONA is developed as part of my Master's thesis.
+other_work:
+  - Data Intensive Systems: Clustering a database into sub databases with the help of O. Papakyriakou.
+  - Pattern Set Mining and Inductive Databases: From start til end, a near complete picture.
+  - Big Data: An in depth look.
+  - Deep Learning Model applying CycleGAN for Unpaired Image Transformation on Computer Vision with the contribution of P.W.O. van Aken, F.L.G. Blom, R.R. Cuevas, J.A.W. Markus, and M.A. Scheeres. The GitHub repo can be found here.
+  - Optimizing a vaccination campaign with the help of Julian Markus, Leona Teunissen, and Ramon R. Cuevas. The GitLab repo can be found here.
+  - Short and simple Monte Carlo Simulation (Deprecated).
+extras:
+  title: Check out these projects as well
+  paragraphs:
+    - Apache Groovy, a powerful Java-syntax-compatible object-oriented programming language.
+    - Still thinking whether Groovy is the right language?
+    - Read my thoughts about Groovy here.
+    - Axe, an accessibility testing engine to ensure that there are no barriers that prevent interaction with, or access to, websites by people with physical disabilities.

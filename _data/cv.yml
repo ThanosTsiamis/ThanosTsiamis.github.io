@@ -1,0 +1,17 @@
+education:
+  - degree: MSc in Computing Science at Utrecht University, The Netherlands
+    details: Algorithmic Data Analysis Track with a strong interest in Machine Learning and its applications.
+  - degree: BSc in Mathematics at National Kapodistrian University of Athens, Greece
+work_experience:
+  - Software Engineer in Test at Illinois Lottery and Loterie Romande on behalf of Camelot Lottery Solutions
+  - Software Engineer Internship at Agile Actors, Athens, Greece
+stacks:
+  - Code development in Java
+  - Data Analysis in Python with Scikit-Learn, Pandas, and Numpy
+  - Deep Learning in Python with Tensorflow and Keras
+  - Data Mining in R
+  - Software Testing in Groovy with Geb, Spock, and Selenium frameworks
+  - CI/CD with Docker, Jenkins, and GitHub Actions
+  - SQL and NoSQL with PostgreSQL and Cassandra
+  - Math-focused code development in MATLAB
+also: Scrum enthusiast - Kanban supporter!
