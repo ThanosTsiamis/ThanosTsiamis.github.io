@@ -10,12 +10,24 @@ to my personal website
 ## Happy by choice!
 
 <div class="panel">
+  <div class="hero-profile">
+    <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Portrait of Thanos Tsiamis" class="profile-photo">
+    <div>
+      <p>
+        My name is Thanos, a postgraduate computer science student currently on a
+        Bit of a Detour..., with a strong interest in computer stuff of all kinds!
+      </p>
+      <p>
+        <a href="{{ '/about/' | relative_url }}">More About Me</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="panel">
   <p>
-    My name is Thanos, a postgraduate computer science student currently on a
-    Bit of a Detour..., with a strong interest in computer stuff of all kinds!
-  </p>
-  <p>
-    <a href="{{ '/about/' | relative_url }}">More About Me</a>
+    Put your photo file at:
+    <code>/Users/thanostsiamis/WebstormProjects/ThanosTsiamis.github.io/assets/images/profile.jpg</code>
   </p>
 </div>
 

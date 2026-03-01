@@ -21,6 +21,15 @@
   </div>
 
   <div class="desktop">
+    <div class="desktop-icons">
+      {% for item in site.data.navigation %}
+      <a class="desktop-icon" href="{{ item.url | relative_url }}">
+        <span class="desktop-icon-glyph" aria-hidden="true">▣</span>
+        <span class="desktop-icon-label">{{ item.label }}</span>
+      </a>
+      {% endfor %}
+    </div>
+
     <div class="window" id="main-window">
       <div class="titlebar">
         <span class="title">{{ page.title }}</span>
@@ -36,6 +45,10 @@
       <div id="main-content" class="window-content">
         {{ content }}
       </div>
+      <div class="statusbar">
+        <span>My Computer is ready.</span>
+        <span id="status-time">00:00</span>
+      </div>
     </div>
   </div>
 
@@ -47,9 +60,24 @@
   <div class="start-menu" id="start-menu" aria-hidden="true">
     <div class="start-menu-head">Windows 98</div>
     {% include nav-links.html %}
+    <button type="button" class="start-menu-action" id="shutdown-btn">Shut Down...</button>
   </div>
 
   <div class="secret-toast" id="secret-toast" aria-live="polite"></div>
+
+  <div class="desktop-menu" id="desktop-menu" aria-hidden="true">
+    <button type="button" data-action="refresh">Refresh</button>
+    <button type="button" data-action="scanlines">Toggle Scanlines</button>
+    <button type="button" data-action="party">Toggle Party Mode</button>
+    <button type="button" data-action="about">About This Site</button>
+  </div>
+
+  <div class="boot-screen" id="boot-screen" aria-hidden="true">
+    <div class="boot-inner">
+      <p>Starting Windows 98...</p>
+      <div class="boot-bar"><span id="boot-progress"></span></div>
+    </div>
+  </div>
 
   <div class="bsod" id="bsod" aria-hidden="true">
     <div class="bsod-inner">
@@ -73,11 +101,17 @@
       var taskBtn = document.getElementById("task-window");
       var startBtn = document.getElementById("start-btn");
       var startMenu = document.getElementById("start-menu");
+      var shutdownBtn = document.getElementById("shutdown-btn");
       var clock = document.getElementById("clock");
+      var statusTime = document.getElementById("status-time");
       var cookieBanner = document.getElementById("cookie-banner");
       var cookieAccept = document.getElementById("cookie-accept");
       var secretToast = document.getElementById("secret-toast");
+      var desktopMenu = document.getElementById("desktop-menu");
+      var bootScreen = document.getElementById("boot-screen");
+      var bootProgress = document.getElementById("boot-progress");
       var bsod = document.getElementById("bsod");
+      var titlebar = windowEl.querySelector(".titlebar");
       var audioContext = null;
       var lastClickAt = 0;
       var konami = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
@@ -99,12 +133,25 @@
       function openBsod() {
         bsod.classList.add("show");
         bsod.setAttribute("aria-hidden", "false");
+        playErrorSound();
         showSecret("Easter egg unlocked: Blue Screen");
       }
 
       function closeBsod() {
         bsod.classList.remove("show");
         bsod.setAttribute("aria-hidden", "true");
+      }
+
+      function closeDesktopMenu() {
+        desktopMenu.classList.remove("open");
+        desktopMenu.setAttribute("aria-hidden", "true");
+      }
+
+      function openDesktopMenu(x, y) {
+        desktopMenu.style.left = x + "px";
+        desktopMenu.style.top = y + "px";
+        desktopMenu.classList.add("open");
+        desktopMenu.setAttribute("aria-hidden", "false");
       }
 
       function hideCookieBanner(saveChoice) {
@@ -174,6 +221,81 @@
         clickOsc.stop(now + 0.015);
       }
 
+      function ensureAudioContext() {
+        if (!audioContext) {
+          var AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return false;
+          audioContext = new AudioCtx();
+        }
+        if (audioContext.state === "suspended") {
+          audioContext.resume();
+        }
+        return true;
+      }
+
+      function playStartupSound() {
+        if (!ensureAudioContext()) return;
+        var now = audioContext.currentTime;
+        var master = audioContext.createGain();
+        master.gain.setValueAtTime(0.0001, now);
+        master.gain.exponentialRampToValueAtTime(0.085, now + 0.08);
+        master.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+        master.connect(audioContext.destination);
+
+        var low = audioContext.createOscillator();
+        low.type = "triangle";
+        low.frequency.setValueAtTime(246.94, now);
+        low.frequency.exponentialRampToValueAtTime(329.63, now + 0.55);
+        low.connect(master);
+        low.start(now);
+        low.stop(now + 1.45);
+
+        var high = audioContext.createOscillator();
+        high.type = "sine";
+        high.frequency.setValueAtTime(493.88, now + 0.08);
+        high.frequency.exponentialRampToValueAtTime(659.25, now + 0.72);
+        high.connect(master);
+        high.start(now + 0.08);
+        high.stop(now + 1.35);
+      }
+
+      function playErrorSound() {
+        if (!ensureAudioContext()) return;
+        var now = audioContext.currentTime;
+        var gain = audioContext.createGain();
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.095, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+        gain.connect(audioContext.destination);
+
+        var osc = audioContext.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.setValueAtTime(392.0, now + 0.16);
+        osc.frequency.setValueAtTime(329.63, now + 0.29);
+        osc.connect(gain);
+        osc.start(now);
+        osc.stop(now + 0.43);
+      }
+
+      function playShutdownSound() {
+        if (!ensureAudioContext()) return;
+        var now = audioContext.currentTime;
+        var gain = audioContext.createGain();
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.exponentialRampToValueAtTime(0.10, now + 0.03);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.05);
+        gain.connect(audioContext.destination);
+
+        var osc = audioContext.createOscillator();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(392, now);
+        osc.frequency.exponentialRampToValueAtTime(146.83, now + 1.0);
+        osc.connect(gain);
+        osc.start(now);
+        osc.stop(now + 1.06);
+      }
+
       function closeStartMenu() {
         startMenu.classList.remove("open");
         startBtn.classList.remove("pressed");
@@ -197,6 +319,31 @@
         taskBtn.classList.remove("taskbar-title-inactive");
       }
 
+      // Basic draggable window behavior for non-maximized state.
+      var dragState = { active: false, offsetX: 0, offsetY: 0 };
+      titlebar.addEventListener("pointerdown", function (event) {
+        if (event.target.closest(".window-buttons")) return;
+        if (windowEl.classList.contains("maximized")) return;
+        var rect = windowEl.getBoundingClientRect();
+        windowEl.classList.add("floating");
+        windowEl.style.left = rect.left + "px";
+        windowEl.style.top = rect.top + "px";
+        dragState.active = true;
+        dragState.offsetX = event.clientX - rect.left;
+        dragState.offsetY = event.clientY - rect.top;
+        titlebar.setPointerCapture(event.pointerId);
+      });
+
+      titlebar.addEventListener("pointermove", function (event) {
+        if (!dragState.active) return;
+        windowEl.style.left = Math.max(0, event.clientX - dragState.offsetX) + "px";
+        windowEl.style.top = Math.max(0, event.clientY - dragState.offsetY) + "px";
+      });
+
+      titlebar.addEventListener("pointerup", function () {
+        dragState.active = false;
+      });
+
       minBtn.addEventListener("click", function () {
         windowEl.classList.toggle("minimized");
         windowEl.classList.remove("closed");
@@ -206,6 +353,11 @@
       maxBtn.addEventListener("click", function () {
         restoreWindow();
         windowEl.classList.toggle("maximized");
+        if (windowEl.classList.contains("maximized")) {
+          windowEl.classList.remove("floating");
+          windowEl.style.left = "";
+          windowEl.style.top = "";
+        }
       });
 
       closeBtn.addEventListener("click", function () {
@@ -240,6 +392,33 @@
         if (!startMenu.contains(event.target) && event.target !== startBtn) {
           closeStartMenu();
         }
+        if (!desktopMenu.contains(event.target)) {
+          closeDesktopMenu();
+        }
+      });
+
+      document.querySelector(".desktop").addEventListener("contextmenu", function (event) {
+        if (event.target.closest(".window")) return;
+        event.preventDefault();
+        openDesktopMenu(event.clientX, event.clientY);
+      });
+
+      desktopMenu.addEventListener("click", function (event) {
+        var btn = event.target.closest("button[data-action]");
+        if (!btn) return;
+        var action = btn.getAttribute("data-action");
+        if (action === "refresh") {
+          showSecret("Desktop refreshed.");
+        } else if (action === "scanlines") {
+          document.body.classList.toggle("scanlines");
+          showSecret("Scanlines toggled.");
+        } else if (action === "party") {
+          document.body.classList.toggle("party-mode");
+          showSecret("Party mode toggled.");
+        } else if (action === "about") {
+          showSecret("Thanos Tsiamis - Windows 98 edition.");
+        }
+        closeDesktopMenu();
       });
 
       document.addEventListener("keydown", function (event) {
@@ -276,6 +455,15 @@
         closeStartMenu();
       });
 
+      shutdownBtn.addEventListener("click", function (event) {
+        event.stopPropagation();
+        closeStartMenu();
+        playShutdownSound();
+        showSecret("It is now safe to turn off your computer.");
+        windowEl.classList.add("closed");
+        taskBtn.classList.add("taskbar-title-inactive");
+      });
+
       document.addEventListener("pointerdown", function (event) {
         if (event.button !== 0) return;
         playRetroClick();
@@ -291,7 +479,32 @@
         var m = now.getMinutes();
         if (m < 10) m = "0" + m;
         clock.textContent = h + ":" + m;
+        statusTime.textContent = h + ":" + m;
       }
+
+      function runBootScreen() {
+        try {
+          if (window.sessionStorage.getItem("boot-seen") === "1") return;
+          window.sessionStorage.setItem("boot-seen", "1");
+        } catch (e) {}
+        bootScreen.classList.add("show");
+        bootScreen.setAttribute("aria-hidden", "false");
+        var progress = 0;
+        var timer = window.setInterval(function () {
+          progress += 7;
+          bootProgress.style.width = Math.min(progress, 100) + "%";
+          if (progress >= 100) {
+            window.clearInterval(timer);
+            window.setTimeout(function () {
+              bootScreen.classList.remove("show");
+              bootScreen.setAttribute("aria-hidden", "true");
+              playStartupSound();
+            }, 180);
+          }
+        }, 42);
+      }
+
+      runBootScreen();
       updateClock();
       setInterval(updateClock, 60000);
     })();

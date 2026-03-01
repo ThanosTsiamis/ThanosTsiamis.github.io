@@ -12,6 +12,20 @@ body {
   color: #000;
 }
 
+.scanlines .desktop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.05) 0,
+    rgba(0, 0, 0, 0.05) 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 4px
+  );
+}
+
 .party-mode .desktop {
   animation: party-pulse 1.8s linear infinite;
 }
@@ -76,9 +90,45 @@ body {
 }
 
 .desktop {
+  position: relative;
   min-height: calc(100vh - 42px);
   padding: 26px;
   background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.08), transparent 40%);
+}
+
+.desktop-icons {
+  position: absolute;
+  left: 12px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 2;
+}
+
+.desktop-icon {
+  width: 90px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  padding: 4px;
+}
+
+.desktop-icon:hover {
+  background: rgba(0, 0, 128, 0.5);
+  color: #fff;
+}
+
+.desktop-icon-glyph {
+  display: block;
+  font-size: 26px;
+  line-height: 1;
+}
+
+.desktop-icon-label {
+  display: block;
+  font-size: 12px;
+  margin-top: 3px;
 }
 
 .window {
@@ -89,6 +139,13 @@ body {
   border-right-color: #444;
   border-bottom-color: #444;
   box-shadow: 2px 2px 0 #000;
+  z-index: 3;
+}
+
+.window.floating {
+  position: fixed;
+  margin: 0;
+  width: min(760px, calc(100vw - 12px));
 }
 
 .window.maximized {
@@ -142,6 +199,17 @@ body {
   padding: 18px;
 }
 
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  background: #c0c0c0;
+  border-top: 2px solid #7f7f7f;
+  border-left: 2px solid #fff;
+  font-size: 12px;
+}
+
 .top-nav {
   display: flex;
   flex-wrap: wrap;
@@ -176,6 +244,23 @@ h2 {
   border: 2px solid #fff;
   border-right-color: #6b6b6b;
   border-bottom-color: #6b6b6b;
+}
+
+.hero-profile {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.profile-photo {
+  width: 170px;
+  max-width: 42vw;
+  height: auto;
+  border: 2px solid #fff;
+  border-right-color: #555;
+  border-bottom-color: #555;
+  background: #a9a9a9;
+  object-fit: cover;
 }
 
 .field {
@@ -291,6 +376,91 @@ a:hover {
   color: #fff;
 }
 
+.start-menu-action {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  font-size: 14px;
+  color: #000;
+  background: #c0c0c0;
+  border: none;
+  border-top: 1px solid #8b8b8b;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.start-menu-action:hover {
+  background: #000080;
+  color: #fff;
+}
+
+.desktop-menu {
+  position: fixed;
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: 2px 2px 0 #000;
+  min-width: 175px;
+  display: none;
+  z-index: 35;
+}
+
+.desktop-menu.open {
+  display: block;
+}
+
+.desktop-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  background: #c0c0c0;
+  border: none;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.desktop-menu button:hover {
+  background: #000080;
+  color: #fff;
+}
+
+.boot-screen {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #fff;
+  display: none;
+  z-index: 45;
+}
+
+.boot-screen.show {
+  display: grid;
+  place-items: center;
+}
+
+.boot-inner {
+  width: min(420px, 90vw);
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
+.boot-bar {
+  height: 18px;
+  border: 2px solid #fff;
+  margin-top: 10px;
+  padding: 1px;
+}
+
+.boot-bar span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: #c0c0c0;
+}
+
 .secret-toast {
   position: fixed;
   right: 14px;
@@ -375,4 +545,10 @@ a:hover {
   border-right-color: #666;
   border-bottom-color: #666;
   font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .hero-profile {
+    flex-direction: column;
+  }
 }
