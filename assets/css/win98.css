@@ -113,6 +113,7 @@ body.virus-mode .desktop {
   position: absolute;
   inset: 0;
   z-index: 2;
+  pointer-events: none;
 }
 
 .desktop-icon {
@@ -123,6 +124,7 @@ body.virus-mode .desktop {
   text-align: center;
   padding: 4px;
   user-select: none;
+  pointer-events: auto;
 }
 
 .desktop-icon:hover {
@@ -159,6 +161,7 @@ body.virus-mode .desktop {
 }
 
 .window {
+  position: relative;
   max-width: 760px;
   margin: 0 auto;
   background: #c0c0c0;
@@ -579,6 +582,64 @@ a:hover {
   border-bottom-color: #444;
   background: #c0c0c0;
   padding: 3px 9px;
+}
+
+.system-dialog {
+  position: fixed;
+  top: 95px;
+  left: 120px;
+  width: min(380px, calc(100vw - 24px));
+  background: #c0c0c0;
+  border: 2px solid #fff;
+  border-right-color: #444;
+  border-bottom-color: #444;
+  box-shadow: 2px 2px 0 #000;
+  display: none;
+  z-index: 42;
+}
+
+.system-dialog.show {
+  display: block;
+}
+
+.system-dialog-title {
+  background: linear-gradient(to right, #000080, #1084d0);
+  color: #fff;
+  padding: 5px 8px;
+  font-weight: bold;
+}
+
+.system-dialog-body {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.system-dialog-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.system-dialog-links a {
+  text-decoration: none;
+  color: #000;
+  border: 1px solid #fff;
+  border-right-color: #666;
+  border-bottom-color: #666;
+  padding: 3px 7px;
+  background: #c0c0c0;
+}
+
+.system-dialog-links a:hover {
+  background: #d6d6d6;
+}
+
+.system-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 10px 10px;
 }
 
 .taskbar-title {

@@ -22,7 +22,7 @@
 
   <div class="desktop">
     <div class="desktop-icons">
-      <a class="desktop-icon" id="icon-my-computer" data-default-x="14" data-default-y="16" href="{{ '/about/' | relative_url }}">
+      <a class="desktop-icon" id="icon-my-computer" data-default-x="14" data-default-y="16" href="#" data-action="my-computer">
         <span class="pixel-desktop-icon pixel-my-computer" aria-hidden="true"></span>
         <span class="desktop-icon-label">My Computer</span>
       </a>
@@ -96,6 +96,36 @@
   </div>
   <div class="virus-layer" id="virus-layer" aria-hidden="true"></div>
 
+  <div class="system-dialog" id="my-computer-dialog" aria-hidden="true">
+    <div class="system-dialog-title">My Computer</div>
+    <div class="system-dialog-body">
+      <p><strong>Computer:</strong> THANOS-PC</p>
+      <p><strong>OS:</strong> Windows 98 (Website Edition)</p>
+      <p><strong>Status:</strong> All systems operational</p>
+      <div class="system-dialog-links">
+        <a href="{{ '/' | relative_url }}">Desktop</a>
+        <a href="{{ '/projects/' | relative_url }}">Projects</a>
+        <a href="{{ '/cv/' | relative_url }}">CV</a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </div>
+    </div>
+    <div class="system-dialog-actions">
+      <button type="button" class="retro-btn" id="my-computer-close">Close</button>
+    </div>
+  </div>
+
+  <div class="system-dialog" id="recycle-dialog" aria-hidden="true">
+    <div class="system-dialog-title">Recycle Bin</div>
+    <div class="system-dialog-body">
+      <p id="recycle-status">Items waiting: 3</p>
+      <p>This is a safe mock bin for desktop effects.</p>
+    </div>
+    <div class="system-dialog-actions">
+      <button type="button" class="retro-btn" id="recycle-empty">Empty Recycle Bin</button>
+      <button type="button" class="retro-btn" id="recycle-close">Close</button>
+    </div>
+  </div>
+
   <footer class="taskbar" aria-label="Windows 98 style taskbar">
     <button type="button" class="start-btn" id="start-btn">Start</button>
     <button type="button" class="taskbar-title" id="task-window">{{ site.title }}</button>
@@ -132,7 +162,14 @@
       var cookieAccept = document.getElementById("cookie-accept");
       var secretToast = document.getElementById("secret-toast");
       var desktopIcons = Array.prototype.slice.call(document.querySelectorAll(".desktop-icon"));
+      var myComputerIcon = document.getElementById("icon-my-computer");
       var recycleBinIcon = document.getElementById("icon-recycle-bin");
+      var myComputerDialog = document.getElementById("my-computer-dialog");
+      var myComputerClose = document.getElementById("my-computer-close");
+      var recycleDialog = document.getElementById("recycle-dialog");
+      var recycleStatus = document.getElementById("recycle-status");
+      var recycleEmpty = document.getElementById("recycle-empty");
+      var recycleClose = document.getElementById("recycle-close");
       var desktopMenu = document.getElementById("desktop-menu");
       var bootScreen = document.getElementById("boot-screen");
       var bootProgress = document.getElementById("boot-progress");
@@ -141,6 +178,8 @@
       var titlebar = windowEl.querySelector(".titlebar");
       var audioContext = null;
       var lastClickAt = 0;
+      var lastKeySoundAt = 0;
+      var keyNoiseBuffer = null;
       var konami = ["arrowup", "arrowup", "arrowdown", "arrowdown", "arrowleft", "arrowright", "arrowleft", "arrowright", "b", "a"];
       var konamiProgress = 0;
       var typedBuffer = "";
@@ -148,6 +187,7 @@
       var systemMuted = false;
       var networkConnected = true;
       var virusState = { active: false, spawnTimer: null, stopTimer: null, popups: 0 };
+      var recycleCount = 3;
 
       function showSecret(message) {
         secretToast.textContent = message;
@@ -175,6 +215,30 @@
       function closeDesktopMenu() {
         desktopMenu.classList.remove("open");
         desktopMenu.setAttribute("aria-hidden", "true");
+      }
+
+      function closeSystemDialogs() {
+        myComputerDialog.classList.remove("show");
+        recycleDialog.classList.remove("show");
+        myComputerDialog.setAttribute("aria-hidden", "true");
+        recycleDialog.setAttribute("aria-hidden", "true");
+      }
+
+      function openMyComputerDialog() {
+        closeSystemDialogs();
+        myComputerDialog.classList.add("show");
+        myComputerDialog.setAttribute("aria-hidden", "false");
+      }
+
+      function updateRecycleStatus() {
+        recycleStatus.textContent = "Items waiting: " + recycleCount;
+      }
+
+      function openRecycleDialog() {
+        closeSystemDialogs();
+        updateRecycleStatus();
+        recycleDialog.classList.add("show");
+        recycleDialog.setAttribute("aria-hidden", "false");
       }
 
       function openDesktopMenu(x, y) {
@@ -229,8 +293,12 @@
       }
       recycleBinIcon.addEventListener("click", function (event) {
         event.preventDefault();
-        stopVirusPrank();
-        showSecret("Recycle Bin is empty.");
+        openRecycleDialog();
+      });
+
+      myComputerIcon.addEventListener("click", function (event) {
+        event.preventDefault();
+        openMyComputerDialog();
       });
 
       function startVirusPrank() {
@@ -318,6 +386,71 @@
         clickOsc.connect(clickGain);
         clickOsc.start(now);
         clickOsc.stop(now + 0.015);
+      }
+
+      function playKeyboardKey() {
+        var nowMs = Date.now();
+        if (nowMs - lastKeySoundAt < 14) return;
+        lastKeySoundAt = nowMs;
+        if (!ensureAudioContext()) return;
+
+        var now = audioContext.currentTime;
+        var velocity = 0.92 + Math.random() * 0.18;
+
+        // Short bright switch click using filtered noise.
+        if (!keyNoiseBuffer) {
+          var len = Math.floor(audioContext.sampleRate * 0.04);
+          keyNoiseBuffer = audioContext.createBuffer(1, len, audioContext.sampleRate);
+          var data = keyNoiseBuffer.getChannelData(0);
+          for (var i = 0; i < len; i++) {
+            data[i] = (Math.random() * 2 - 1) * (1 - i / len);
+          }
+        }
+        var noiseSource = audioContext.createBufferSource();
+        noiseSource.buffer = keyNoiseBuffer;
+        var noiseFilter = audioContext.createBiquadFilter();
+        noiseFilter.type = "highpass";
+        noiseFilter.frequency.value = 2300 + Math.random() * 400;
+        noiseFilter.Q.value = 0.7;
+        var noiseGain = audioContext.createGain();
+        noiseGain.gain.setValueAtTime(0.0001, now);
+        noiseGain.gain.exponentialRampToValueAtTime(0.06 * velocity, now + 0.0015);
+        noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
+        noiseSource.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(audioContext.destination);
+        noiseSource.start(now);
+        noiseSource.stop(now + 0.03);
+
+        // Main keycap thock.
+        var thockGain = audioContext.createGain();
+        thockGain.gain.setValueAtTime(0.0001, now + 0.002);
+        thockGain.gain.exponentialRampToValueAtTime(0.12 * velocity, now + 0.006);
+        thockGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+        thockGain.connect(audioContext.destination);
+
+        var thockOsc = audioContext.createOscillator();
+        thockOsc.type = "triangle";
+        thockOsc.frequency.setValueAtTime(220 + Math.random() * 35, now + 0.002);
+        thockOsc.frequency.exponentialRampToValueAtTime(145 + Math.random() * 25, now + 0.05);
+        thockOsc.connect(thockGain);
+        thockOsc.start(now + 0.002);
+        thockOsc.stop(now + 0.058);
+
+        // Tiny metallic spring tail.
+        var springGain = audioContext.createGain();
+        springGain.gain.setValueAtTime(0.0001, now + 0.01);
+        springGain.gain.exponentialRampToValueAtTime(0.028 * velocity, now + 0.013);
+        springGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+        springGain.connect(audioContext.destination);
+
+        var springOsc = audioContext.createOscillator();
+        springOsc.type = "square";
+        springOsc.frequency.setValueAtTime(1700 + Math.random() * 180, now + 0.01);
+        springOsc.frequency.exponentialRampToValueAtTime(900 + Math.random() * 120, now + 0.07);
+        springOsc.connect(springGain);
+        springOsc.start(now + 0.01);
+        springOsc.stop(now + 0.078);
       }
 
       function ensureAudioContext() {
@@ -495,6 +628,14 @@
         if (!desktopMenu.contains(event.target)) {
           closeDesktopMenu();
         }
+        if (!myComputerDialog.contains(event.target) && event.target !== myComputerIcon) {
+          myComputerDialog.classList.remove("show");
+          myComputerDialog.setAttribute("aria-hidden", "true");
+        }
+        if (!recycleDialog.contains(event.target) && event.target !== recycleBinIcon) {
+          recycleDialog.classList.remove("show");
+          recycleDialog.setAttribute("aria-hidden", "true");
+        }
       });
 
       document.querySelector(".desktop").addEventListener("contextmenu", function (event) {
@@ -521,6 +662,23 @@
           showSecret("Thanos Tsiamis - Windows 98 edition.");
         }
         closeDesktopMenu();
+      });
+
+      myComputerClose.addEventListener("click", function () {
+        myComputerDialog.classList.remove("show");
+        myComputerDialog.setAttribute("aria-hidden", "true");
+      });
+
+      recycleClose.addEventListener("click", function () {
+        recycleDialog.classList.remove("show");
+        recycleDialog.setAttribute("aria-hidden", "true");
+      });
+
+      recycleEmpty.addEventListener("click", function () {
+        recycleCount = 0;
+        stopVirusPrank();
+        updateRecycleStatus();
+        showSecret("Recycle Bin emptied.");
       });
 
       document.addEventListener("keydown", function (event) {
@@ -551,6 +709,7 @@
           closeStartMenu();
           closeBsod();
           stopVirusPrank();
+          closeSystemDialogs();
         }
       });
 
@@ -601,6 +760,19 @@
 
       bsod.addEventListener("click", function () {
         closeBsod();
+      });
+
+      Array.prototype.slice.call(document.querySelectorAll(".retro-form input[type='text'], .retro-form input[type='email'], .retro-form textarea")).forEach(function (el) {
+        el.addEventListener("keydown", function (event) {
+          var k = event.key;
+          if (k === "Shift" || k === "Alt" || k === "Control" || k === "Meta" || k === "CapsLock" || k === "Tab") {
+            return;
+          }
+          playKeyboardKey();
+        });
+        el.addEventListener("input", function () {
+          playKeyboardKey();
+        });
       });
 
       function updateClock() {

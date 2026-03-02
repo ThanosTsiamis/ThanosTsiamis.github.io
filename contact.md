@@ -14,6 +14,10 @@ permalink: /contact/
 
 <form class="panel retro-form" action="#" method="post">
   <div class="field">
+    <label class="field-label" for="name">Your name:</label>
+    <input id="name" name="name" type="text" required>
+  </div>
+  <div class="field">
     <label class="field-label" for="email">Your email:</label>
     <input id="email" name="email" type="email" required>
   </div>
