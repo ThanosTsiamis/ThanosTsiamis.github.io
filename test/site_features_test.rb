@@ -42,8 +42,9 @@ class SiteFeaturesTest < Minitest::Test
 
   def test_home_contains_behavior_hooks_for_pranks_and_audio
     html = read_site_file("index.html")
+    js = read_site_file("assets/js/desktop.js")
     home = EXPECTATIONS.fetch("home")
-    assert_all_includes!(html, home.fetch("js_hooks"), "home page script")
+    assert_all_includes!(js, home.fetch("js_hooks"), "desktop script")
     assert_all_includes!(html, home.fetch("required_attributes"), "home page markup")
   end
 

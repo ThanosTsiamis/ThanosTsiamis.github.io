@@ -15,6 +15,7 @@ Retro personal website built with Jekyll, styled as a Windows 98 desktop.
 
 - `_layouts/default.html`: main shell UI + JS interactions
 - `assets/css/win98.css`: Windows 98 styling
+- `pages/`: markdown pages (about, projects, cv, contact, 404)
 - `_data/`: shared content and configuration
 - `test/site_features_test.rb`: regression tests
 - `test/site_expectations.yml`: test expectations (easy to modify)
@@ -60,6 +61,7 @@ rake test
 - CV content: `_data/cv.yml`
 - Projects content: `_data/projects.yml`
 - Homepage content: `index.md`
+- Other pages: `pages/*.md`
 
 ## Profile Photo
 
