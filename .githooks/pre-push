@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "[pre-push] Running full checks..."
+ruby test/site_features_test.rb
+bundle exec jekyll build
+
+echo "[pre-push] OK"

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "[pre-commit] Running regression tests..."
+ruby test/site_features_test.rb
+
+echo "[pre-commit] OK"

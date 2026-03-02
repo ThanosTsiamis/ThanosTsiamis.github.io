@@ -3,3 +3,18 @@ vendor/bundle/
 _site/
 .jekyll-cache/
 .jekyll-metadata
+
+# IDE/editor
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Local env/config
+.env
+.env.*
+
+# Logs and temp
+*.log
+tmp/
