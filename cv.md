@@ -27,11 +27,14 @@ permalink: /cv/
 
 <div class="panel">
   <h2>Stacks and Technologies</h2>
+  {% for group in site.data.cv.stacks_groups %}
+  <h3>{{ group.title }}</h3>
   <ul>
-    {% for item in site.data.cv.stacks %}
+    {% for item in group.items %}
     <li>{{ item }}</li>
     {% endfor %}
   </ul>
+  {% endfor %}
 </div>
 
 <div class="panel">

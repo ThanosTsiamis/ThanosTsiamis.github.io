@@ -1,17 +1,37 @@
 education:
   - degree: MSc in Computing Science at Utrecht University, The Netherlands
-    details: Algorithmic Data Analysis Track with a strong interest in Machine Learning and its applications.
+    details: Algorithmic Data Analysis track.
   - degree: BSc in Mathematics at National Kapodistrian University of Athens, Greece
 work_experience:
-  - Software Engineer in Test at Illinois Lottery and Loterie Romande on behalf of Camelot Lottery Solutions
+  - After FlexCar, I returned to Agile Actors as a contractor for Allwyn Lottery Solutions (formerly Camelot Lottery Solutions), working as a Software Engineer in Test
+  - Software Engineer in Test at FlexCar
   - Software Engineer Internship at Agile Actors, Athens, Greece
-stacks:
-  - Code development in Java
-  - Data Analysis in Python with Scikit-Learn, Pandas, and Numpy
-  - Deep Learning in Python with Tensorflow and Keras
-  - Data Mining in R
-  - Software Testing in Groovy with Geb, Spock, and Selenium frameworks
-  - CI/CD with Docker, Jenkins, and GitHub Actions
-  - SQL and NoSQL with PostgreSQL and Cassandra
-  - Math-focused code development in MATLAB
-also: Scrum enthusiast - Kanban supporter!
+stacks_groups:
+  - title: Testing Work
+    items:
+      - UI test automation with Groovy, Geb, Spock, and Selenium
+      - API and integration testing
+      - Regression checks in CI
+  - title: Languages
+    items:
+      - Java
+      - Python
+      - Groovy
+      - SQL
+  - title: Data and ML
+    items:
+      - Pandas, NumPy, and scikit-learn
+      - TensorFlow and Keras
+      - R
+  - title: Delivery and Tooling
+    items:
+      - Jenkins and GitHub Actions
+      - Docker
+  - title: Databases
+    items:
+      - PostgreSQL
+      - Cassandra
+  - title: Other
+    items:
+      - MATLAB
+also: I prefer practical work and clear communication over buzzwords.

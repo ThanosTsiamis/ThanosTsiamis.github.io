@@ -1,0 +1,32 @@
+home:
+  required_ids:
+    - cookie-accept
+    - start-btn
+    - start-menu
+    - task-window
+    - boot-screen
+    - bsod
+    - desktop-menu
+    - virus-layer
+    - tray-volume
+    - tray-network
+    - tray-hardware
+    - icon-my-computer
+    - icon-recycle-bin
+  js_hooks:
+    - function playStartupSound()
+    - function playErrorSound()
+    - function playShutdownSound()
+    - function startVirusPrank()
+  required_attributes:
+    - data-action="virus"
+
+pages:
+  cv/index.html:
+    - After FlexCar, I returned to Agile Actors
+    - Allwyn Lottery Solutions (formerly Camelot Lottery Solutions)
+    - Software Engineer in Test at FlexCar
+  projects/index.html:
+    - Projects I am interested in
+    - My magnus opus
+    - Other work

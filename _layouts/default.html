@@ -22,9 +22,17 @@
 
   <div class="desktop">
     <div class="desktop-icons">
+      <a class="desktop-icon" id="icon-my-computer" data-default-x="14" data-default-y="16" href="{{ '/about/' | relative_url }}">
+        <span class="pixel-desktop-icon pixel-my-computer" aria-hidden="true"></span>
+        <span class="desktop-icon-label">My Computer</span>
+      </a>
+      <a class="desktop-icon" id="icon-recycle-bin" data-default-x="14" data-default-y="94" href="#" data-action="recycle-bin">
+        <span class="pixel-desktop-icon pixel-recycle-bin" aria-hidden="true"></span>
+        <span class="desktop-icon-label">Recycle Bin</span>
+      </a>
       {% for item in site.data.navigation %}
-      <a class="desktop-icon" href="{{ item.url | relative_url }}">
-        <span class="desktop-icon-glyph" aria-hidden="true">▣</span>
+      <a class="desktop-icon" id="icon-{{ item.label | slugify }}" data-default-x="14" data-default-y="{{ forloop.index0 | plus: 2 | times: 78 | plus: 16 }}" href="{{ item.url | relative_url }}">
+        <span class="pixel-desktop-icon pixel-shortcut" aria-hidden="true"></span>
         <span class="desktop-icon-label">{{ item.label }}</span>
       </a>
       {% endfor %}
@@ -69,6 +77,7 @@
     <button type="button" data-action="refresh">Refresh</button>
     <button type="button" data-action="scanlines">Toggle Scanlines</button>
     <button type="button" data-action="party">Toggle Party Mode</button>
+    <button type="button" data-action="virus">Run totally-not-virus.exe</button>
     <button type="button" data-action="about">About This Site</button>
   </div>
 
@@ -85,10 +94,22 @@
       <p>Press any key to continue _</p>
     </div>
   </div>
+  <div class="virus-layer" id="virus-layer" aria-hidden="true"></div>
 
   <footer class="taskbar" aria-label="Windows 98 style taskbar">
     <button type="button" class="start-btn" id="start-btn">Start</button>
     <button type="button" class="taskbar-title" id="task-window">{{ site.title }}</button>
+    <div class="tray" aria-label="System tray">
+      <button type="button" class="tray-icon tray-volume" id="tray-volume" title="Volume: on" aria-label="Volume">
+        <span class="pixel-icon pixel-volume" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="tray-icon tray-network" id="tray-network" title="Network: connected" aria-label="Network">
+        <span class="pixel-icon pixel-network" aria-hidden="true"></span>
+      </button>
+      <button type="button" class="tray-icon tray-hardware" id="tray-hardware" title="Hardware status" aria-label="Hardware status">
+        <span class="pixel-icon pixel-hardware" aria-hidden="true"></span>
+      </button>
+    </div>
     <div class="clock" id="clock">--:--</div>
   </footer>
 
@@ -102,15 +123,21 @@
       var startBtn = document.getElementById("start-btn");
       var startMenu = document.getElementById("start-menu");
       var shutdownBtn = document.getElementById("shutdown-btn");
+      var trayVolume = document.getElementById("tray-volume");
+      var trayNetwork = document.getElementById("tray-network");
+      var trayHardware = document.getElementById("tray-hardware");
       var clock = document.getElementById("clock");
       var statusTime = document.getElementById("status-time");
       var cookieBanner = document.getElementById("cookie-banner");
       var cookieAccept = document.getElementById("cookie-accept");
       var secretToast = document.getElementById("secret-toast");
+      var desktopIcons = Array.prototype.slice.call(document.querySelectorAll(".desktop-icon"));
+      var recycleBinIcon = document.getElementById("icon-recycle-bin");
       var desktopMenu = document.getElementById("desktop-menu");
       var bootScreen = document.getElementById("boot-screen");
       var bootProgress = document.getElementById("boot-progress");
       var bsod = document.getElementById("bsod");
+      var virusLayer = document.getElementById("virus-layer");
       var titlebar = windowEl.querySelector(".titlebar");
       var audioContext = null;
       var lastClickAt = 0;
@@ -118,6 +145,9 @@
       var konamiProgress = 0;
       var typedBuffer = "";
       var startClicks = [];
+      var systemMuted = false;
+      var networkConnected = true;
+      var virusState = { active: false, spawnTimer: null, stopTimer: null, popups: 0 };
 
       function showSecret(message) {
         secretToast.textContent = message;
@@ -152,6 +182,75 @@
         desktopMenu.style.top = y + "px";
         desktopMenu.classList.add("open");
         desktopMenu.setAttribute("aria-hidden", "false");
+      }
+
+      function spawnVirusPopup() {
+        var popup = document.createElement("div");
+        popup.className = "virus-popup";
+        popup.innerHTML =
+          "<div class='virus-popup-title'>System Alert</div>" +
+          "<div class='virus-popup-body'>Visual prank active.<br>Nothing is actually damaged.</div>" +
+          "<button type='button' class='virus-popup-btn'>Ignore</button>";
+
+        var maxX = Math.max(40, window.innerWidth - 280);
+        var maxY = Math.max(40, window.innerHeight - 180);
+        popup.style.left = Math.floor(Math.random() * maxX) + "px";
+        popup.style.top = Math.floor(Math.random() * maxY) + "px";
+        virusLayer.appendChild(popup);
+        virusState.popups += 1;
+
+        popup.querySelector(".virus-popup-btn").addEventListener("click", function () {
+          popup.remove();
+        });
+      }
+
+      function stopVirusPrank() {
+        if (!virusState.active) return;
+        virusState.active = false;
+        if (virusState.spawnTimer) window.clearInterval(virusState.spawnTimer);
+        if (virusState.stopTimer) window.clearTimeout(virusState.stopTimer);
+        virusState.spawnTimer = null;
+        virusState.stopTimer = null;
+        virusState.popups = 0;
+        document.body.classList.remove("virus-mode");
+        virusLayer.innerHTML = "";
+        virusLayer.classList.remove("show");
+        virusLayer.setAttribute("aria-hidden", "true");
+        showSecret("Virus eradicated.");
+      }
+
+      function placeDesktopIconsAtDefault() {
+        desktopIcons.forEach(function (icon) {
+          var x = parseInt(icon.getAttribute("data-default-x"), 10);
+          var y = parseInt(icon.getAttribute("data-default-y"), 10);
+          icon.style.left = x + "px";
+          icon.style.top = y + "px";
+        });
+      }
+      recycleBinIcon.addEventListener("click", function (event) {
+        event.preventDefault();
+        stopVirusPrank();
+        showSecret("Recycle Bin is empty.");
+      });
+
+      function startVirusPrank() {
+        if (virusState.active) return;
+        virusState.active = true;
+        virusLayer.classList.add("show");
+        virusLayer.setAttribute("aria-hidden", "false");
+        document.body.classList.add("virus-mode");
+        showSecret("totally-not-virus.exe launched");
+        playErrorSound();
+        spawnVirusPopup();
+        virusState.spawnTimer = window.setInterval(function () {
+          if (!virusState.active) return;
+          if (virusState.popups >= 14) return;
+          spawnVirusPopup();
+          if (Math.random() > 0.7) playErrorSound();
+        }, 650);
+        virusState.stopTimer = window.setTimeout(function () {
+          stopVirusPrank();
+        }, 14000);
       }
 
       function hideCookieBanner(saveChoice) {
@@ -222,6 +321,7 @@
       }
 
       function ensureAudioContext() {
+        if (systemMuted) return false;
         if (!audioContext) {
           var AudioCtx = window.AudioContext || window.webkitAudioContext;
           if (!AudioCtx) return false;
@@ -415,6 +515,8 @@
         } else if (action === "party") {
           document.body.classList.toggle("party-mode");
           showSecret("Party mode toggled.");
+        } else if (action === "virus") {
+          startVirusPrank();
         } else if (action === "about") {
           showSecret("Thanos Tsiamis - Windows 98 edition.");
         }
@@ -448,6 +550,7 @@
         if (event.key === "Escape") {
           closeStartMenu();
           closeBsod();
+          stopVirusPrank();
         }
       });
 
@@ -462,6 +565,33 @@
         showSecret("It is now safe to turn off your computer.");
         windowEl.classList.add("closed");
         taskBtn.classList.add("taskbar-title-inactive");
+      });
+
+      trayVolume.addEventListener("click", function (event) {
+        event.stopPropagation();
+        systemMuted = !systemMuted;
+        trayVolume.classList.toggle("is-muted", systemMuted);
+        trayVolume.setAttribute("title", systemMuted ? "Volume: muted" : "Volume: on");
+        showSecret(systemMuted ? "Volume muted." : "Volume enabled.");
+      });
+
+      trayNetwork.addEventListener("click", function (event) {
+        event.stopPropagation();
+        networkConnected = !networkConnected;
+        trayNetwork.classList.toggle("is-offline", !networkConnected);
+        trayNetwork.setAttribute("title", networkConnected ? "Network: connected" : "Network: disconnected");
+        showSecret(networkConnected ? "Network connected." : "Network disconnected.");
+      });
+
+      trayHardware.addEventListener("click", function (event) {
+        event.stopPropagation();
+        var checks = [
+          "No conflicts detected.",
+          "USB Mass Storage Device is working properly.",
+          "Safe to remove hardware."
+        ];
+        var message = checks[Math.floor(Math.random() * checks.length)];
+        showSecret("Hardware: " + message);
       });
 
       document.addEventListener("pointerdown", function (event) {
@@ -505,6 +635,7 @@
       }
 
       runBootScreen();
+      placeDesktopIconsAtDefault();
       updateClock();
       setInterval(updateClock, 60000);
     })();
