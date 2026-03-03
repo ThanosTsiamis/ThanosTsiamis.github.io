@@ -67,6 +67,6 @@ rake test
 
 Place your photo at:
 
-`assets/images/profile.jpg`
+`assets/profile.jpg`
 
 The homepage is already wired to render it.

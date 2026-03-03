@@ -11,7 +11,7 @@ to my personal website
 
 <div class="panel">
   <div class="hero-profile">
-    <img src="{{ '/assets/images/profile.jpg' | relative_url }}" alt="Portrait of Thanos Tsiamis" class="profile-photo">
+    <img src="{{ '/assets/profile.jpg' | relative_url }}" alt="Portrait of Thanos Tsiamis" class="profile-photo">
     <div>
       <p>
         My name is Thanos, a postgraduate computer science student currently on a
@@ -22,13 +22,6 @@ to my personal website
       </p>
     </div>
   </div>
-</div>
-
-<div class="panel">
-  <p>
-    Put your photo file at:
-    <code>/Users/thanostsiamis/WebstormProjects/ThanosTsiamis.github.io/assets/images/profile.jpg</code>
-  </p>
 </div>
 
 <div class="panel">
