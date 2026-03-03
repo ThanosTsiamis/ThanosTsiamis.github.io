@@ -1,10 +1,10 @@
-# main links
-main:
-  - title: "Projects"
-    url: /projects
-  - title: "Curriculum Vitae"
-    url: /cv
-  - title: "Contact"
-    url: /contact
-  - title: "About"
-    url: /about
+- label: Home
+  url: /
+- label: Projects
+  url: /projects/
+- label: Curriculum Vitae
+  url: /cv/
+- label: Contact
+  url: /contact/
+- label: About
+  url: /about/

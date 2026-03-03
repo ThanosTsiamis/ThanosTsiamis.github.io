@@ -1,0 +1,37 @@
+education:
+  - degree: MSc in Computing Science at Utrecht University, The Netherlands
+    details: Algorithmic Data Analysis track.
+  - degree: BSc in Mathematics at National Kapodistrian University of Athens, Greece
+work_experience:
+  - After FlexCar, I returned to Agile Actors as a contractor for Allwyn Lottery Solutions (formerly Camelot Lottery Solutions), working as a Software Engineer in Test
+  - Software Engineer in Test at FlexCar
+  - Software Engineer Internship at Agile Actors, Athens, Greece
+stacks_groups:
+  - title: Testing Work
+    items:
+      - UI test automation with Groovy, Geb, Spock, and Selenium
+      - API and integration testing
+      - Regression checks in CI
+  - title: Languages
+    items:
+      - Java
+      - Python
+      - Groovy
+      - SQL
+  - title: Data and ML
+    items:
+      - Pandas, NumPy, and scikit-learn
+      - TensorFlow and Keras
+      - R
+  - title: Delivery and Tooling
+    items:
+      - Jenkins and GitHub Actions
+      - Docker
+  - title: Databases
+    items:
+      - PostgreSQL
+      - Cassandra
+  - title: Other
+    items:
+      - MATLAB
+also: I prefer practical work and clear communication over buzzwords.
