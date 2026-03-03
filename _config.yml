@@ -1,8 +1,8 @@
 title: "Thanos Tsiamis"
-description: "Retro personal website powered by Jekyll."
+description: "Retro personal website"
 baseurl: ""
 url: ""
 markdown: kramdown
 theme: null
 plugins: []
-google_analytics_id: ""
+google_analytics_id: "G-908P8SBT71"
