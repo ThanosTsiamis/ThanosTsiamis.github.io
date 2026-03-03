@@ -70,3 +70,11 @@ Place your photo at:
 `assets/profile.jpg`
 
 The homepage is already wired to render it.
+
+## Analytics (GA4)
+
+Set your Google Analytics Measurement ID in `_config.yml`:
+
+`google_analytics_id: "G-XXXXXXXXXX"`
+
+Tracking loads only after the user accepts the cookie banner (and on future visits after that consent is saved).
