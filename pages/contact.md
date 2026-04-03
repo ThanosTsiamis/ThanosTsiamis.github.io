@@ -12,7 +12,9 @@ permalink: /contact/
   <p>I will do my best to respond as soon as possible.</p>
 </div>
 
-<form class="panel retro-form" data-contact-form data-contact-email="{{ site.data.social.email }}">
+<form class="panel retro-form" action="{{ site.formspree_endpoint }}" method="post">
+  <input type="hidden" name="_subject" value="Portfolio contact form submission">
+  <input type="hidden" name="_next" value="{{ '/contact/success/' | absolute_url }}">
   <div class="field">
     <label class="field-label" for="name">Your name:</label>
     <input id="name" name="name" type="text" required>
@@ -25,7 +27,7 @@ permalink: /contact/
     <label class="field-label" for="message">Your message:</label>
     <textarea id="message" name="message" rows="6" required></textarea>
   </div>
-  <button type="submit" class="retro-btn">Send email</button>
+  <button type="submit" class="retro-btn">Send message</button>
 </form>
 
 <div class="panel">

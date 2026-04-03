@@ -6,3 +6,4 @@ markdown: kramdown
 theme: null
 plugins: []
 google_analytics_id: "G-908P8SBT71"
+formspree_endpoint: "https://formspree.io/f/xdobwnov"
