@@ -8,6 +8,9 @@ magnus_opus:
     patterns in data attributes, making it invaluable for data analysis and
     decision-making processes. FIONA is developed as part of my Master's thesis.
 other_work:
+  - '<a href="https://github.com/webdriverio-community/wdio-visual-click-service" target="_blank" rel="noopener noreferrer">WebdriverIO Visual Click Service</a>: A WebdriverIO plugin I built to click canvas-based and selectorless UI components using image matching. I also wrote a <a href="https://dev.to/agileactors/webdriverio-visual-click-service-bpe" target="_blank" rel="noopener noreferrer">DEV Community article</a> about the idea, the OpenCV and Pixelmatch engines, and how it works in practice.'
+  - '<a href="https://github.com/agileactors/agile-actors-gh-action-bias-checker" target="_blank" rel="noopener noreferrer">Agile Actors Bias Checker GitHub Action</a>: A GitHub Action I built and am especially proud of, focused on helping teams detect bias in their workflows automatically.'
+  - '<a href="https://github.com/ThanosTsiamis/MutantSonar" target="_blank" rel="noopener noreferrer">MutantSonar</a>: A CLI tool I am building that converts PIT mutation testing reports into SonarCloud external issues, with mutation summaries, CI-friendly gating, and source-file mapping across Java, Kotlin, Groovy, and Scala projects.'
   - '<a href="/assets/pdfs/INFOMDIS.pdf" target="_blank" rel="noopener noreferrer">Data Intensive Systems</a>: Clustering a database into sub databases with the help of O. Papakyriakou.'
   - '<a href="/assets/pdfs/Pattern_Set_Mining.pdf" target="_blank" rel="noopener noreferrer">Pattern Set Mining and Inductive Databases</a>: From start til end, a near complete picture.'
   - '<a href="/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf" target="_blank" rel="noopener noreferrer">Big Data</a>: An in depth look.'
