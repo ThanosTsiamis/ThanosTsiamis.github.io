@@ -12,7 +12,7 @@ permalink: /contact/
   <p>I will do my best to respond as soon as possible.</p>
 </div>
 
-<form class="panel retro-form" action="#" method="post">
+<form class="panel retro-form" data-contact-form data-contact-email="{{ site.data.social.email }}">
   <div class="field">
     <label class="field-label" for="name">Your name:</label>
     <input id="name" name="name" type="text" required>
@@ -25,7 +25,7 @@ permalink: /contact/
     <label class="field-label" for="message">Your message:</label>
     <textarea id="message" name="message" rows="6" required></textarea>
   </div>
-  <button type="submit" class="retro-btn">Send</button>
+  <button type="submit" class="retro-btn">Send email</button>
 </form>
 
 <div class="panel">

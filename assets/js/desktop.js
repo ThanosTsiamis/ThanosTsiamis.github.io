@@ -651,6 +651,31 @@
         });
       });
 
+      Array.prototype.slice.call(document.querySelectorAll("[data-contact-form]")).forEach(function (form) {
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var email = form.getAttribute("data-contact-email");
+          var nameInput = form.querySelector("input[name='name']");
+          var senderInput = form.querySelector("input[name='email']");
+          var messageInput = form.querySelector("textarea[name='message']");
+          if (!email || !nameInput || !senderInput || !messageInput) {
+            return;
+          }
+
+          var name = nameInput.value.trim();
+          var sender = senderInput.value.trim();
+          var message = messageInput.value.trim();
+          var subject = encodeURIComponent("Portfolio contact from " + name);
+          var body = encodeURIComponent(
+            "Name: " + name + "\n" +
+            "Email: " + sender + "\n\n" +
+            message
+          );
+
+          window.location.href = "mailto:" + encodeURIComponent(email) + "?subject=" + subject + "&body=" + body;
+        });
+      });
+
       function updateClock() {
         var now = new Date();
         var h = now.getHours();

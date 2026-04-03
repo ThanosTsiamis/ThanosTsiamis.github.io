@@ -8,8 +8,8 @@ permalink: /about/
 
 <div class="panel">
   <p>
-    I am Thanos Tsiamis, a postgraduate computer science student with broad
-    interests across software engineering, data, and machine learning.
+    I am Thanos Tsiamis, a software engineer with broad interests across
+    software engineering, data, and machine learning.
   </p>
   <p>
     This version of my site is intentionally old-school and inspired by

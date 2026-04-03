@@ -14,8 +14,8 @@ to my personal website
     <img src="{{ '/assets/profile.jpg' | relative_url }}" alt="Portrait of Thanos Tsiamis" class="profile-photo">
     <div>
       <p>
-        My name is Thanos, a postgraduate computer science student currently on a
-        Bit of a Detour..., with a strong interest in computer stuff of all kinds!
+        My name is Thanos, a software engineer with broad interests across
+        software, data, and machine learning.
       </p>
       <p>
         <a href="{{ '/about/' | relative_url }}">More About Me</a>
