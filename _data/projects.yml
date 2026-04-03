@@ -8,16 +8,16 @@ magnus_opus:
     patterns in data attributes, making it invaluable for data analysis and
     decision-making processes. FIONA is developed as part of my Master's thesis.
 other_work:
-  - Data Intensive Systems: Clustering a database into sub databases with the help of O. Papakyriakou.
-  - Pattern Set Mining and Inductive Databases: From start til end, a near complete picture.
-  - Big Data: An in depth look.
-  - Deep Learning Model applying CycleGAN for Unpaired Image Transformation on Computer Vision with the contribution of P.W.O. van Aken, F.L.G. Blom, R.R. Cuevas, J.A.W. Markus, and M.A. Scheeres. The GitHub repo can be found here.
-  - Optimizing a vaccination campaign with the help of Julian Markus, Leona Teunissen, and Ramon R. Cuevas. The GitLab repo can be found here.
+  - <a href="/assets/pdfs/INFOMDIS.pdf" target="_blank" rel="noopener noreferrer">Data Intensive Systems</a>: Clustering a database into sub databases with the help of O. Papakyriakou.
+  - <a href="/assets/pdfs/Pattern_Set_Mining.pdf" target="_blank" rel="noopener noreferrer">Pattern Set Mining and Inductive Databases</a>: From start til end, a near complete picture.
+  - <a href="/assets/pdfs/Athanasios_Tsiamis_5223652_BigDataEssay.pdf" target="_blank" rel="noopener noreferrer">Big Data</a>: An in depth look.
+  - <a href="/assets/pdfs/Project_Pattern_Recognition___Final.pdf" target="_blank" rel="noopener noreferrer">Deep Learning Model applying CycleGAN for Unpaired Image Transformation on Computer Vision</a> with the contribution of P.W.O. van Aken, F.L.G. Blom, R.R. Cuevas, J.A.W. Markus, and M.A. Scheeres. The GitHub repo can be found here.
+  - <a href="/assets/pdfs/INFOMADS_Group_Project_Report__Vaccination_Scheduling.pdf" target="_blank" rel="noopener noreferrer">Optimizing a vaccination campaign</a> with the help of Julian Markus, Leona Teunissen, and Ramon R. Cuevas. The GitLab repo can be found here.
   - Short and simple Monte Carlo Simulation (Deprecated).
 extras:
   title: Check out these projects as well
   paragraphs:
     - Apache Groovy, a powerful Java-syntax-compatible object-oriented programming language.
     - Still thinking whether Groovy is the right language?
-    - Read my thoughts about Groovy here.
+    - Read my thoughts about <a href="/assets/pdfs/GroovyProgrammingLanguage.pdf" target="_blank" rel="noopener noreferrer">Groovy here</a>.
     - Axe, an accessibility testing engine to ensure that there are no barriers that prevent interaction with, or access to, websites by people with physical disabilities.
