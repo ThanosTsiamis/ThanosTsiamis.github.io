@@ -33,6 +33,7 @@
       var virusLayer = document.getElementById("virus-layer");
       var titlebar = windowEl.querySelector(".titlebar");
       var audioContext = null;
+      var audioMasterGain = null;
       var lastClickAt = 0;
       var lastKeySoundAt = 0;
       var keyNoiseBuffer = null;
@@ -221,15 +222,7 @@
         if (nowMs - lastClickAt < 30) return;
         lastClickAt = nowMs;
 
-        if (!audioContext) {
-          var AudioCtx = window.AudioContext || window.webkitAudioContext;
-          if (!AudioCtx) return;
-          audioContext = new AudioCtx();
-        }
-
-        if (audioContext.state === "suspended") {
-          audioContext.resume();
-        }
+        if (!ensureAudioContext()) return;
 
         var now = audioContext.currentTime;
 
@@ -238,7 +231,7 @@
         thumpGain.gain.setValueAtTime(0.0001, now);
         thumpGain.gain.exponentialRampToValueAtTime(0.26, now + 0.003);
         thumpGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
-        thumpGain.connect(audioContext.destination);
+        thumpGain.connect(audioMasterGain);
 
         var thumpOsc = audioContext.createOscillator();
         thumpOsc.type = "triangle";
@@ -253,7 +246,7 @@
         clickGain.gain.setValueAtTime(0.0001, now);
         clickGain.gain.exponentialRampToValueAtTime(0.08, now + 0.001);
         clickGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
-        clickGain.connect(audioContext.destination);
+        clickGain.connect(audioMasterGain);
 
         var clickOsc = audioContext.createOscillator();
         clickOsc.type = "square";
@@ -294,7 +287,7 @@
         noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.02);
         noiseSource.connect(noiseFilter);
         noiseFilter.connect(noiseGain);
-        noiseGain.connect(audioContext.destination);
+        noiseGain.connect(audioMasterGain);
         noiseSource.start(now);
         noiseSource.stop(now + 0.03);
 
@@ -303,7 +296,7 @@
         thockGain.gain.setValueAtTime(0.0001, now + 0.002);
         thockGain.gain.exponentialRampToValueAtTime(0.12 * velocity, now + 0.006);
         thockGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
-        thockGain.connect(audioContext.destination);
+        thockGain.connect(audioMasterGain);
 
         var thockOsc = audioContext.createOscillator();
         thockOsc.type = "triangle";
@@ -318,7 +311,7 @@
         springGain.gain.setValueAtTime(0.0001, now + 0.01);
         springGain.gain.exponentialRampToValueAtTime(0.028 * velocity, now + 0.013);
         springGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
-        springGain.connect(audioContext.destination);
+        springGain.connect(audioMasterGain);
 
         var springOsc = audioContext.createOscillator();
         springOsc.type = "square";
@@ -335,11 +328,24 @@
           var AudioCtx = window.AudioContext || window.webkitAudioContext;
           if (!AudioCtx) return false;
           audioContext = new AudioCtx();
+          audioMasterGain = audioContext.createGain();
+          audioMasterGain.gain.value = 1;
+          audioMasterGain.connect(audioContext.destination);
         }
         if (audioContext.state === "suspended") {
           audioContext.resume();
         }
         return true;
+      }
+
+      function setSystemMuted(muted) {
+        systemMuted = muted;
+        if (audioMasterGain && audioContext) {
+          audioMasterGain.gain.setValueAtTime(systemMuted ? 0 : 1, audioContext.currentTime);
+        }
+        trayVolume.classList.toggle("is-muted", systemMuted);
+        trayVolume.setAttribute("title", systemMuted ? "Volume: muted" : "Volume: on");
+        trayVolume.setAttribute("aria-pressed", systemMuted ? "true" : "false");
       }
 
       function playStartupSound() {
@@ -349,7 +355,7 @@
         master.gain.setValueAtTime(0.0001, now);
         master.gain.exponentialRampToValueAtTime(0.085, now + 0.08);
         master.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
-        master.connect(audioContext.destination);
+        master.connect(audioMasterGain);
 
         var low = audioContext.createOscillator();
         low.type = "triangle";
@@ -375,7 +381,7 @@
         gain.gain.setValueAtTime(0.0001, now);
         gain.gain.exponentialRampToValueAtTime(0.095, now + 0.015);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
-        gain.connect(audioContext.destination);
+        gain.connect(audioMasterGain);
 
         var osc = audioContext.createOscillator();
         osc.type = "triangle";
@@ -394,7 +400,7 @@
         gain.gain.setValueAtTime(0.0001, now);
         gain.gain.exponentialRampToValueAtTime(0.10, now + 0.03);
         gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.05);
-        gain.connect(audioContext.destination);
+        gain.connect(audioMasterGain);
 
         var osc = audioContext.createOscillator();
         osc.type = "triangle";
@@ -604,9 +610,7 @@
 
       trayVolume.addEventListener("click", function (event) {
         event.stopPropagation();
-        systemMuted = !systemMuted;
-        trayVolume.classList.toggle("is-muted", systemMuted);
-        trayVolume.setAttribute("title", systemMuted ? "Volume: muted" : "Volume: on");
+        setSystemMuted(!systemMuted);
         showSecret(systemMuted ? "Volume muted." : "Volume enabled.");
       });
 

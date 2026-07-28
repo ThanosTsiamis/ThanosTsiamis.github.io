@@ -31,6 +31,14 @@
         <span class="pixel-desktop-icon pixel-recycle-bin" aria-hidden="true"></span>
         <span class="desktop-icon-label">Recycle Bin</span>
       </a>
+      <button type="button" class="desktop-icon game-shortcut" id="icon-minesweeper" data-default-x="104" data-default-y="16">
+        <span class="pixel-desktop-icon pixel-minesweeper" aria-hidden="true"></span>
+        <span class="desktop-icon-label">Minesweeper</span>
+      </button>
+      <button type="button" class="desktop-icon game-shortcut" id="icon-solitaire" data-default-x="104" data-default-y="94">
+        <span class="pixel-desktop-icon pixel-solitaire" aria-hidden="true"></span>
+        <span class="desktop-icon-label">Solitaire</span>
+      </button>
       {% for item in site.data.navigation %}
       <a class="desktop-icon" id="icon-{{ item.label | slugify }}" data-default-x="14" data-default-y="{{ forloop.index0 | plus: 2 | times: 78 | plus: 16 }}" href="{{ item.url | relative_url }}">
         <span class="pixel-desktop-icon pixel-shortcut" aria-hidden="true"></span>
@@ -69,6 +77,8 @@
   <div class="start-menu" id="start-menu" aria-hidden="true">
     <div class="start-menu-head">Windows 98</div>
     {% include nav-links.html %}
+    <button type="button" class="start-menu-action" id="start-minesweeper">🎯 Minesweeper</button>
+    <button type="button" class="start-menu-action" id="start-solitaire">🂡 Solitaire</button>
     <button type="button" class="start-menu-action" id="shutdown-btn">Shut Down...</button>
   </div>
 
@@ -127,11 +137,50 @@
     </div>
   </div>
 
+  <section class="game-window minesweeper-window" id="minesweeper-window" aria-hidden="true" aria-label="Minesweeper">
+    <div class="game-titlebar">
+      <span>Minesweeper</span>
+      <button type="button" class="btn game-close" id="minesweeper-close" aria-label="Close Minesweeper">X</button>
+    </div>
+    <div class="game-menubar" aria-hidden="true"><span>Game</span><span>Help</span></div>
+    <div class="minesweeper-game">
+      <div class="mine-scoreboard">
+        <span class="digital-counter" id="mine-count">010</span>
+        <button type="button" class="mine-reset" id="mine-reset" aria-label="Start a new Minesweeper game">🙂</button>
+        <span class="digital-counter" id="mine-timer">000</span>
+      </div>
+      <button type="button" class="mine-flag-mode" id="mine-flag-mode" aria-pressed="false">🚩 Flag mode: off</button>
+      <div class="mine-grid" id="mine-grid" role="grid" aria-label="Beginner Minesweeper board"></div>
+      <p class="game-status" id="mine-status" aria-live="polite">Clear the field without hitting a mine.</p>
+    </div>
+  </section>
+
+  <section class="game-window solitaire-window" id="solitaire-window" aria-hidden="true" aria-label="Solitaire">
+    <div class="game-titlebar">
+      <span>Solitaire</span>
+      <button type="button" class="btn game-close" id="solitaire-close" aria-label="Close Solitaire">X</button>
+    </div>
+    <div class="game-menubar"><button type="button" id="solitaire-new">Game → New deal</button><span>Draw one</span></div>
+    <div class="solitaire-game" id="solitaire-game">
+      <div class="solitaire-top">
+        <button type="button" class="card-slot card-back" id="solitaire-stock" aria-label="Draw from stock"></button>
+        <div class="card-slot" id="solitaire-waste" aria-label="Waste pile"></div>
+        <div class="solitaire-spacer" aria-hidden="true"></div>
+        <div class="card-slot foundation-slot" data-foundation="0" aria-label="Foundation 1">A</div>
+        <div class="card-slot foundation-slot" data-foundation="1" aria-label="Foundation 2">A</div>
+        <div class="card-slot foundation-slot" data-foundation="2" aria-label="Foundation 3">A</div>
+        <div class="card-slot foundation-slot" data-foundation="3" aria-label="Foundation 4">A</div>
+      </div>
+      <div class="solitaire-tableau" id="solitaire-tableau" aria-label="Solitaire tableau"></div>
+      <p class="game-status solitaire-status" id="solitaire-status" aria-live="polite">Build down in alternating colors. Move aces to the foundations.</p>
+    </div>
+  </section>
+
   <footer class="taskbar" aria-label="Windows 98 style taskbar">
     <button type="button" class="start-btn" id="start-btn">Start</button>
     <button type="button" class="taskbar-title" id="task-window">{{ site.title }}</button>
     <div class="tray" aria-label="System tray">
-      <button type="button" class="tray-icon tray-volume" id="tray-volume" title="Volume: on" aria-label="Volume">
+      <button type="button" class="tray-icon tray-volume" id="tray-volume" title="Volume: on" aria-label="Volume" aria-pressed="false">
         <span class="pixel-icon pixel-volume" aria-hidden="true"></span>
       </button>
       <button type="button" class="tray-icon tray-network" id="tray-network" title="Network: connected" aria-label="Network">
@@ -145,5 +194,6 @@
   </footer>
 
   <script src="{{ "/assets/js/desktop.js" | relative_url }}" defer></script>
+  <script src="{{ "/assets/js/games.js" | relative_url }}" defer></script>
 </body>
 </html>

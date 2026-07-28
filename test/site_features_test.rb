@@ -42,10 +42,38 @@ class SiteFeaturesTest < Minitest::Test
 
   def test_home_contains_behavior_hooks_for_pranks_and_audio
     html = read_site_file("index.html")
-    js = read_site_file("assets/js/desktop.js")
+    js = [
+      read_site_file("assets/js/desktop.js"),
+      read_site_file("assets/js/games.js")
+    ].join("\n")
     home = EXPECTATIONS.fetch("home")
     assert_all_includes!(js, home.fetch("js_hooks"), "desktop script")
     assert_all_includes!(html, home.fetch("required_attributes"), "home page markup")
+  end
+
+  def test_all_audio_effects_use_the_mutable_master_gain
+    html = read_site_file("index.html")
+    js = read_site_file("assets/js/desktop.js")
+
+    assert_includes js, "function setSystemMuted(muted)"
+    assert_includes js, "audioMasterGain.gain.setValueAtTime(systemMuted ? 0 : 1"
+    assert_equal 1, js.scan(/connect\(audioContext\.destination\)/).length,
+      "Only the master gain should connect directly to the audio destination"
+    assert_includes html, 'id="tray-volume" title="Volume: on" aria-label="Volume" aria-pressed="false"'
+  end
+
+  def test_games_are_playable_and_loaded
+    html = read_site_file("index.html")
+    games = read_site_file("assets/js/games.js")
+
+    assert_includes html, 'id="mine-flag-mode"'
+    assert_includes html, 'id="solitaire-stock"'
+    assert_includes html, 'id="start-minesweeper"'
+    assert_includes html, 'id="start-solitaire"'
+    assert_includes html, '/assets/js/games.js'
+    assert_includes games, "function plantMines(firstIndex)"
+    assert_includes games, "function tryMoveToTableau(columnIndex)"
+    assert_includes games, "function tryMoveToFoundation(foundationIndex)"
   end
 
   def test_navigation_links_are_rendered_from_data

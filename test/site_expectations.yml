@@ -13,20 +13,76 @@ home:
     - tray-hardware
     - icon-my-computer
     - icon-recycle-bin
+    - icon-minesweeper
+    - icon-solitaire
+    - minesweeper-window
+    - mine-grid
+    - solitaire-window
+    - solitaire-tableau
   js_hooks:
     - function playStartupSound()
     - function playErrorSound()
     - function playShutdownSound()
     - function startVirusPrank()
+    - function newMineGame()
+    - function newSolitaireGame()
   required_attributes:
     - data-action="virus"
 
 pages:
   cv/index.html:
+    - https://www.uu.nl/en/masters/computing-science
+    - https://www.math.uoa.gr/
     - After FlexCar, I returned to Agile Actors
     - Allwyn Lottery Solutions (formerly Camelot Lottery Solutions)
     - Software Engineer in Test at FlexCar
+    - Awards and Publications
+    - Best Demo Award
+    - "FIONA: Detecting Outliers in Attributes of Relational Datasets with Categorical Values"
+    - ICDCS '25
+    - Learn more about FIONA on IEEE Xplore
+    - Security Research
+    - CVE-2026-33166
+    - GHSA-64hm-gfwq-jppw
+    - Allure Report Arbitrary File Read via Path Traversal in Attachment Processing
+    - Credited reporter
+    - CVE-2026-61696
+    - GHSA-4463-499m-94mx
+    - Stored XSS in Forem Admin Abuse Report Rendering
+    - Open-Source Contributions
+    - ArchUnit
+    - Optimize LakosMetrics transitive dependency graph
+    - speedup of more than 16×
+    - Spock Framework
+    - Prevent NPE in SpecRunHistory.sortFeatures when duration is missing
+    - Spock 2.4-M7 milestone
+    - Podman Desktop
+    - Add configurable scrollback for terminal instances
+    - Podman Desktop 1.23.0 milestone
   projects/index.html:
     - Projects I am interested in
     - My magnus opus
     - Other work
+    - Best Demo Award
+    - "FIONA: Detecting Outliers in Attributes of Relational Datasets with Categorical Values"
+    - Learn more about FIONA on IEEE Xplore
+    - Security Research
+    - CVE-2026-33166
+    - GHSA-64hm-gfwq-jppw
+    - CVE-2026-61696
+    - GHSA-4463-499m-94mx
+    - Patched by Forem in commit 92eacd1
+    - Open-Source Contributions
+    - ArchUnit
+    - Iterative Kosaraju strongly connected component detection
+    - View pull request #1629
+    - Spock Framework
+    - Null-safe boxed Long comparisons
+    - View pull request #2235
+    - View issue #2234
+    - Podman Desktop
+    - xterm.js scrollback integration across terminal surfaces
+    - View pull request #14703
+    - View issue #14702
+    - Gender Bias Scanner GitHub Action
+    - sole contributor to the project

@@ -1,0 +1,69 @@
+open_source:
+  - year: 2026
+    project: ArchUnit
+    title: "Optimize LakosMetrics transitive dependency graph"
+    status: "Merged on May 26, 2026"
+    summary: >-
+      Replaced repeated depth-first searches in MetricsComponentDependencyGraph
+      with a one-time reachability precomputation based on strongly connected
+      component condensation and BitSet propagation over the resulting DAG.
+    impact: >-
+      ArchUnit's reviewer measured the LakosMetrics computation for
+      hibernate-core 7.3.6 (37,281 classes) dropping from 101±2 seconds to
+      6.2±0.3 seconds—a speedup of more than 16×.
+    techniques:
+      - Iterative Kosaraju strongly connected component detection
+      - DAG condensation and topological BitSet propagation
+      - Constant-time cached transitive-dependency queries
+      - Primitive-backed, stack-safe graph processing
+    pull_request_number: 1629
+    issue_number: 1628
+    pull_request_url: "https://github.com/TNG/ArchUnit/pull/1629"
+    issue_url: "https://github.com/TNG/ArchUnit/issues/1628"
+  - year: 2025
+    project: Spock Framework
+    title: "Prevent NPE in SpecRunHistory.sortFeatures when duration is missing"
+    status: "Merged on October 22, 2025"
+    summary: >-
+      Fixed a NullPointerException caused by automatic Long-to-long unboxing
+      when an interrupted, partially written, corrupted, or cross-version
+      .spock/RunHistory file contains a feature confidence value without a
+      corresponding duration.
+    impact: >-
+      The defensive comparison preserves the existing feature-ordering
+      semantics, sorts missing durations last, and allows Spock test execution
+      to recover safely from incomplete run-history data. The fix was included
+      in the Spock 2.4-M7 milestone.
+    techniques:
+      - Null-safe boxed Long comparisons
+      - Deterministic ordering for missing duration values
+      - Backward-compatible run-history handling
+      - Release-note documentation
+    pull_request_number: 2235
+    issue_number: 2234
+    pull_request_url: "https://github.com/spockframework/spock/pull/2235"
+    issue_url: "https://github.com/spockframework/spock/issues/2234"
+  - year: 2025
+    project: Podman Desktop
+    title: "Add configurable scrollback for terminal instances"
+    status: "Merged on November 3, 2025"
+    summary: >-
+      Added the terminal.integrated.scrollback setting and applied it across
+      Podman Desktop's shell, container, provider, Kubernetes, dashboard, and
+      log terminals, allowing users to retain more than the previous fixed
+      1,000 lines of terminal output without changing the default behavior.
+    impact: >-
+      Users can choose the right balance between terminal history and memory
+      use, preserving early container-build and application-log output needed
+      for debugging. Reviewers verified 1,000-, 20,000-, and 50,000-line
+      configurations on macOS and Windows. The feature shipped in the Podman
+      Desktop 1.23.0 milestone.
+    techniques:
+      - Typed terminal configuration schema with validation bounds
+      - xterm.js scrollback integration across terminal surfaces
+      - Backward-compatible 1,000-line default
+      - Updated unit-test mocks with full modified-line coverage
+    pull_request_number: 14703
+    issue_number: 14702
+    pull_request_url: "https://github.com/podman-desktop/podman-desktop/pull/14703"
+    issue_url: "https://github.com/podman-desktop/podman-desktop/issues/14702"

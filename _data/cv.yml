@@ -1,11 +1,20 @@
 education:
   - degree: MSc in Computing Science at Utrecht University, The Netherlands
     details: Algorithmic Data Analysis track.
+    url: "https://www.uu.nl/en/masters/computing-science"
   - degree: BSc in Mathematics at National Kapodistrian University of Athens, Greece
+    url: "https://www.math.uoa.gr/"
 work_experience:
   - After FlexCar, I returned to Agile Actors as a contractor for Allwyn Lottery Solutions (formerly Camelot Lottery Solutions), working as a Software Engineer in Test
   - Software Engineer in Test at FlexCar
   - Software Engineer Internship at Agile Actors, Athens, Greece
+awards:
+  - year: 2025
+    name: Best Demo Award
+    work: "FIONA: Detecting Outliers in Attributes of Relational Datasets with Categorical Values"
+    authors: "Tsiamis, T., Qahtan, A."
+    venue: "ICDCS '25"
+    url: "https://ieeexplore.ieee.org/abstract/document/11262587"
 stacks_groups:
   - title: Testing Work
     items:

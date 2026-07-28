@@ -1,0 +1,36 @@
+disclosures:
+  - year: 2026
+    cve: CVE-2026-33166
+    ghsa: GHSA-64hm-gfwq-jppw
+    title: Allure Report Arbitrary File Read via Path Traversal in Attachment Processing
+    package: "io.qameta.allure:allure-generator"
+    severity: High
+    cvss: "8.6"
+    affected: "Allure Report versions through 2.37.0"
+    patched: "2.38.0"
+    remediation: "Fixed in Allure Report 2.38.0."
+    summary: >-
+      A path traversal issue in the Allure 1, Allure 2, and XCTest result readers
+      allowed malicious attachment paths to include arbitrary files readable by
+      the report-generation process in the generated report.
+    credit: Credited reporter
+    advisory_url: "https://github.com/advisories/GHSA-64hm-gfwq-jppw"
+    nvd_url: "https://nvd.nist.gov/vuln/detail/CVE-2026-33166"
+  - year: 2026
+    cve: CVE-2026-61696
+    ghsa: GHSA-4463-499m-94mx
+    title: Stored XSS in Forem Admin Abuse Report Rendering
+    package: "forem"
+    severity: Moderate
+    cvss: "6.3"
+    affected: "Forem versions before commit 86eb75c"
+    patched: "Commit 92eacd1"
+    remediation: "Patched by Forem in commit 92eacd1."
+    summary: >-
+      Attacker-controlled feedback message content could be stored unsanitized
+      and rendered with raw HTML in the administrator abuse-report interface
+      when an offender was present, allowing JavaScript execution in an
+      administrator's browser.
+    credit: Credited reporter
+    advisory_url: "https://github.com/forem/forem/security/advisories/GHSA-4463-499m-94mx"
+    nvd_url: "https://nvd.nist.gov/vuln/detail/CVE-2026-61696"
